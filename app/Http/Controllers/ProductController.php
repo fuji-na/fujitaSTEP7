@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Company;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -12,10 +13,13 @@ class ProductController extends Controller
     public function ichiran(Request $request){
         $keyword = $request->input('keyword');
         //インスタンス生成
-        $model = new Product();
-        $products = $model->getList();
+        $productModel = new Product();
+        $products = $productModel->getList();
 
-        return view('ichiran', ['products' => $products, 'keyword' => $keyword]);
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
+
+        return view('ichiran', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword]);
     }
 
     //検索
@@ -37,7 +41,10 @@ class ProductController extends Controller
         $model = new Product();
         $products = $model->getList();
 
-        return view('hensyu', ['product' => $product, 'products' => $products]);
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
+
+        return view('hensyu', ['product' => $product, 'products' => $products, 'companies' => $companies]);
     }
 
     //更新
@@ -63,8 +70,8 @@ class ProductController extends Controller
     public function touroku() {
         //インスタンス生成
         $model = new Product();
-        $products = $model->getList();
-        return view('touroku', ['products' => $products]);
+        $companies = $model->getList();
+        return view('touroku', ['companies' => $companies]);
     }
 
     //削除

@@ -24,6 +24,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //商品情報一覧画面
 Route::get('/ichiran', [App\Http\Controllers\ProductController::class, 'ichiran'])->name('ichiran');
+//Route::get('/ichiran', [App\Http\Controllers\CompanyController::class, 'ichiran'])->name('ichiran');
 
 //検索
 Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
@@ -37,7 +38,9 @@ Route::get('/syousai/{id}', [App\Http\Controllers\ProductController::class, 'syo
 
 //商品情報登録画面
 Route::get('/touroku', [App\Http\Controllers\ProductController::class, 'touroku'])->name('touroku');
+Route::get('/touroku', [App\Http\Controllers\CompanyController::class, 'touroku'])->name('touroku');
 Route::post('/registSubmit', [App\Http\Controllers\ProductController::class, 'registSubmit'])->name('registSubmit');
+Route::post('/registSubmit', [App\Http\Controllers\CompanyController::class, 'registSubmit'])->name('registSubmit');
 
 //商品情報編集画面
 Route::get('/hensyu/{id}', [App\Http\Controllers\ProductController::class, 'hensyu'])->name('hensyu');

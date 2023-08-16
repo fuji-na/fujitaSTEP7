@@ -31,6 +31,6 @@
     </div>
     <div>
         <button type="submit" onclick="location.href='{{ route('hensyu', ['id' => $product->id]) }}'">編集</button>
-        <button type="submit" onclick="location.href='./ichiran'">戻る</button>
+        <button type="submit" onclick="location.href='{{ route('ichiran') }}'">戻る</button>
     </div>
     @endsection

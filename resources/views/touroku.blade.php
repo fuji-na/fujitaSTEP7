@@ -5,7 +5,7 @@
     @section('content')
     
         <div>
-            <form action="{{ route('registSubmit') }}" method="post">
+            <form action="{{ route('registSubmit') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div>
                     <label for="product_name">商品名</label>
@@ -15,8 +15,8 @@
                     <label for="company_id">メーカー名</label>
                     <select id="company_id" name="company_id" required>
                         <option>選択してください</option>
-                    @foreach($products as $product)
-                        <option>{{$product->company_id}}</option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->company_name }}</option>
                     @endforeach
                     </select>
                 </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <label for="stock">在庫数</label>
-                    <input type="text" id="stock" required>
+                    <input type="text" id="stock" name="stock" required>
                 </div>
                 <div>
                     <label for="comment">コメント</label>

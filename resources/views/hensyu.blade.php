@@ -19,8 +19,8 @@
                 <label for="company_id">メーカー名</label>
                 <select id="company_id" name="company_id" required>
                 <option>選択してください</option>
-                @foreach($products as $product)
-                    <option value="{{$product->company_id}}" @if($product->company_id === $product->company_id) selected @endif>{{$product->company_id}}</option>
+                @foreach($companies as $company)
+                    <option value="{{$company->id}}" @if($company->id === $company->id) selected @endif>{{$company->id}}</option>
                 @endforeach
                 </select>
             </div>

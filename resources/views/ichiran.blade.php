@@ -7,12 +7,12 @@
         <div>
             <form method="GET" action="{{ route('search') }}">
                 @csrf
-                <input type="text" placeholder="検索キーワード">
+                <input type="text" name="keyword" placeholder="検索キーワード">
                 <label>メーカー名</label>
                 <select id="company_id" name="company_id">
                     <option value="">選択してください</option>
-                @foreach($products as $product)
-                    <option value="{{$product->company_id}}">{{$product->company_id}}</option>
+                @foreach($companies as $company)
+                    <option value="{{$company->id}}">{{$company->company_name}}</option>
                 @endforeach
                 </select>
                 <button type="submit" name="keyword" value="{{ $keyword }}" onclick="location.href='./ichiran'">検索</button>
@@ -38,18 +38,24 @@
                             <td>{{$product->stock}}</td>
                             <td>{{$product->company_id}}</td>
                             <td><a href="{{ route('syousai', ['id' => $product->id]) }}" >詳細</a></td>
-                            <td><button type="submit" id="deleteBtn" data-id="{{$product->id}}" onclick="confirmDelete({{$product->id}})">削除</button></td>
+                            <td>
+                                <button type="button" id="deleteBtn{{$product->id}}" data-id="{{$product->id}}" onclick="confirmDelete({{$product->id}})">削除</button>
+                                <form id="deleteForm{{$product->id}}" method="POST" action="{{ route('delete', ['id' => $product->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-                <script>
-                    function confirmDelete(id) {
-                        if(confirm('削除しますか？')) {
-                            location.href = './delete/' + id;
-                        }
-                    }
-                </script>
             </form>
+            <script>
+                function confirmDelete (id) {
+                    if (confirm('削除しますか？')) {
+                        document.getElementById('deleteForm' + id).submit();
+                    }
+                }
+            </script>
         </div>
     @endsection

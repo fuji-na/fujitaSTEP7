@@ -45,14 +45,15 @@ class Product extends Model
         $this->delete();
     }
 
-    public function registSubmit($data) {
+    /*public function registSubmit($data) {
         //登録処理
         DB::table('products')->insert([
             'product_name' => $data['product_name'],
+            'company_id' => $data['company_id'],
             'price' => $data['price'],
             'stock' => $data['stock'],
             'comment' => $data['comment'],
             'img_path' => $data['img_path'],
         ]);
-    }
+    }*/
 }
