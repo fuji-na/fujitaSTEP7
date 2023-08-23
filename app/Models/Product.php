@@ -45,7 +45,7 @@ class Product extends Model
         $this->delete();
     }
 
-    /*public function registSubmit($data) {
+    public function registSubmit($data) {
         //登録処理
         DB::table('products')->insert([
             'product_name' => $data['product_name'],
@@ -55,5 +55,5 @@ class Product extends Model
             'comment' => $data['comment'],
             'img_path' => $data['img_path'],
         ]);
-    }*/
+    }
 }

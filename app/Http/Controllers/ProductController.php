@@ -86,12 +86,12 @@ class ProductController extends Controller
 
     
     public function registSubmit(ArticleRequest $request) {
-        $model = new Product();
         //トランザクション開始
         DB::beginTransaction();
 
         try {
             //登録処理呼び出し
+            $model = new Product();
             $model->registSubmit($request->all());
             DB::commit();
         } catch (\Exception $e) {

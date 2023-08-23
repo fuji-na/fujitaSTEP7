@@ -20,7 +20,7 @@
                 <select id="company_id" name="company_id" required>
                 <option>選択してください</option>
                 @foreach($companies as $company)
-                    <option value="{{$company->id}}" @if($company->id === $company->id) selected @endif>{{$company->id}}</option>
+                    <option value="{{$company->id}}" @if($company->id === $company->id) selected @endif>{{$company->company_name}}</option>
                 @endforeach
                 </select>
             </div>
