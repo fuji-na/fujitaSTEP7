@@ -3,8 +3,8 @@
     @section('title', '詳細画面')
 
     @section('content')
-    <div>
-        <table>
+    <div class="center-content">
+        <table class="detail">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -21,7 +21,7 @@
                     <td>{{$product->id}}</td>
                     <td>{{$product->img_path}}</td>
                     <td>{{$product->product_name}}</td>
-                    <td>{{$product->company_id}}</td>
+                    <td>{{$company->company_name}}</td>
                     <td>{{$product->price}}</td>
                     <td>{{$product->stock}}</td>
                     <td>{{$product->comment}}</td>
@@ -29,8 +29,8 @@
             </tbody>
         </table>
     </div>
-    <div>
-        <button type="submit" onclick="location.href='{{ route('hensyu', ['id' => $product->id]) }}'">編集</button>
-        <button type="submit" onclick="location.href='{{ route('ichiran') }}'">戻る</button>
+    <div class="center-content">
+        <button class="edit" type="submit" onclick="location.href='{{ route('hensyu', ['id' => $product->id]) }}'">編集</button>
+        <button class="return" type="submit" onclick="location.href='{{ route('ichiran') }}'">戻る</button>
     </div>
     @endsection

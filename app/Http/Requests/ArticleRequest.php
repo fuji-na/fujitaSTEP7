@@ -24,11 +24,11 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_name' => 'required|string',
-            'company_id' => 'required|integer',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'comment' => 'nullable|string',
+            'product_name' => 'required|max:255|string',
+            'company_id' => 'required|max:255|integer',
+            'price' => 'required|max:255|numeric',
+            'stock' => 'required|max:255|integer',
+            'comment' => 'nullable|max:10000|string',
             'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
@@ -46,11 +46,11 @@ class ArticleRequest extends FormRequest
 
     public function messages() {
         return [
-            'product_name.required' => 'attributeは必須項目です。',
-            'company_id.required' => 'attributeは必須項目です。',
-            'price.required' => 'attributeは必須項目です。',
-            'stock.required' => 'attributeは必須項目です。',
-            'comment.max' => 'attributeは:max字以内で入力してください。',
+            'product_name.required' => ':attributeは必須項目です。',
+            'company_id.required' => ':attributeは必須項目です。',
+            'price.required' => ':attributeは必須項目です。',
+            'stock.required' => ':attributeは必須項目です。',
+            'comment.max' => ':attributeは:max字以内で入力してください。',
         ];
     }
 }

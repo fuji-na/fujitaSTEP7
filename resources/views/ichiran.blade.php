@@ -4,7 +4,7 @@
 
     @section('content')
     <link rel="stylesheet" href="app.css">
-        <div>
+        <div class="center-content">
             <form method="GET" action="{{ route('search') }}">
                 @csrf
                 <input type="text" name="keyword" placeholder="検索キーワード">
@@ -15,8 +15,8 @@
                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                 @endforeach
                 </select>
-                <button type="submit" name="keyword" value="{{ $keyword }}" onclick="location.href='./ichiran'">検索</button>
-                <table>
+                <button class="search" type="submit" name="keyword" value="{{ $keyword }}" onclick="location.href='./ichiran'">検索</button>
+                <table class="all">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -36,11 +36,11 @@
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->price}}</td>
                             <td>{{$product->stock}}</td>
-                            <td>{{$product->company_id}}</td>
+                            <td>{{$company->company_name}}</td>
                             <td><a href="{{ route('syousai', ['id' => $product->id]) }}" >詳細</a></td>
                             <td>
-                                <button type="button" id="deleteBtn{{$product->id}}" data-id="{{$product->id}}" onclick="confirmDelete({{$product->id}})">削除</button>
-                                <form id="deleteForm{{$product->id}}" method="POST" action="{{ route('delete', ['id' => $product->id]) }}">
+                                <button class="delete" type="submit" id="deleteBtn{{$product->id}}" data-id="{{$product->id}}" onclick="return confirm('本当に削除しますか？');">削除</button>
+                                <form id="deleteForm{{$product->id}}" method="POST" action="{{ route('post.destroy', ['id' => $product->id]) }}">
                                     @csrf
                                     @method('DELETE')
                                 </form>
@@ -50,12 +50,5 @@
                     </tbody>
                 </table>
             </form>
-            <script>
-                function confirmDelete (id) {
-                    if (confirm('削除しますか？')) {
-                        document.getElementById('deleteForm' + id).submit();
-                    }
-                }
-            </script>
         </div>
     @endsection

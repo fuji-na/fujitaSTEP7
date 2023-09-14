@@ -28,8 +28,11 @@ class ProductController extends Controller
         //インスタンス生成
         $model = new Product();
         $products = Product::searchByKeyword($keyword)->get();
+
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
         
-        return view('ichiran', compact('products', 'keyword'));
+        return view('ichiran', compact('products', 'keyword', 'companies'));
     }
 
     public function hensyu($id) {
@@ -63,24 +66,52 @@ class ProductController extends Controller
     public function syousai($id) {
         //インスタンス生成
         $product = Product::find($id);
+        $company = Company::find($product->company_id);
 
-        return view('syousai', ['product' => $product]);
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
+
+        $productModel = new Company();
+        $products = $productModel->getList();
+
+        /*
+        $productModel = new Product();
+        $products = $productModel->getList();
+
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
+        */
+
+        return view('syousai', ['product' => $product, 'products' => $products, 'company' => $company, 'companies' => $companies]);
     }
+
+
 
     public function touroku() {
         //インスタンス生成
-        $model = new Product();
-        $companies = $model->getList();
-        return view('touroku', ['companies' => $companies]);
+        $companyModel = new Company();
+        $companies = $companyModel->getList();
+
+        $productModel = new Company();
+        $products = $productModel->getList();
+        return view('touroku', ['products' => $products, 'companies' => $companies]);
     }
 
     //削除
-    public function deleteProduct($id) {
+    public function destroy($id) {
         $product = Product::find($id);
-        if(!product) {
-            //returnでメッセージを返す
+        logger($product->getMessage());
+        if(!$product) {
+            logger('商品が見つかりませんでした。');
+            return redirect()->route('ichiran')->with('error','商品が見つかりませんでした。');
         }
-        $product->delete();
+
+        logger('商品が削除されました。ID: ', $product->id);
+
+        //$product->delete();
+        $product->destroy();
+
+        session()->flash('success', '商品が削除されました。');
         return redirect()->route('ichiran');
     }
 
@@ -89,12 +120,14 @@ class ProductController extends Controller
         //トランザクション開始
         DB::beginTransaction();
 
+        $model = new Product();
+
         try {
             //登録処理呼び出し
-            $model = new Product();
-            $model->registSubmit($request->all());
+            $model->registSubmit($request);//insert_dataの処理を追加させる
             DB::commit();
         } catch (\Exception $e) {
+            //logger($e->getMessage()); 
             DB::rollback();
             return back();
         }
