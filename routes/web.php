@@ -29,7 +29,7 @@ Route::get('/ichiran', [App\Http\Controllers\ProductController::class, 'ichiran'
 Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 
 //削除
-Route::post('/post.destroy/{id}', [ProductController::class, 'destroy'])->name('post.destroy');
+Route::delete('/post.destroy/{id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('post.destroy');
 
 
 //商品情報詳細画面

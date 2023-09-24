@@ -10,12 +10,14 @@ class Product extends Model
 {
     use HasFactory;
 
-    
-    public function getList(){
-        //productsテーブルからデータを取得
-        $products = DB::table('products')->get();
+    protected $table = 'products';
+    //productsテーブルからデータを取得
+    public static function getList() {
+        return self::with('company')->get();
+    }
 
-        return $products;
+    public function company() {
+        return $this->belongsTo(Company::class);
     }
 
     //検索

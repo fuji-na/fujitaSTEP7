@@ -15,6 +15,7 @@ class ProductController extends Controller
         //インスタンス生成
         $productModel = new Product();
         $products = $productModel->getList();
+        $products = Product::getList();
 
         $companyModel = new Company();
         $companies = $companyModel->getList();
@@ -100,19 +101,19 @@ class ProductController extends Controller
     //削除
     public function destroy($id) {
         $product = Product::find($id);
-        logger($product->getMessage());
-        if(!$product) {
-            logger('商品が見つかりませんでした。');
-            return redirect()->route('ichiran')->with('error','商品が見つかりませんでした。');
+        try{
+            $product = Product::findOrFail($id);
+
+            $product->delete();
+
+            logger('商品が削除されました。ID: ' . $product->id);
+
+            session()->flash('success', '商品が削除されました。');
+            return redirect()->route('ichiran');
+        } catch (\Exception $e) {
+            logger('商品が見つかりませんでした。エラーメッセージ: ' . $e->getMessage());
+            return redirect()->route('ichiran')->with('error', '商品が見つかりませんでした。');
         }
-
-        logger('商品が削除されました。ID: ', $product->id);
-
-        //$product->delete();
-        $product->destroy();
-
-        session()->flash('success', '商品が削除されました。');
-        return redirect()->route('ichiran');
     }
 
     

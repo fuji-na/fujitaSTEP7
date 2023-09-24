@@ -27,7 +27,7 @@ table.all {
   color: red;
 }
 
-.return, .edit{
+.return, .update-btn, .edit-btn, .create-btn {
   margin: 10px;
   width: 10%;
   display: inline-block;
@@ -37,9 +37,18 @@ table.detail {
   margin: auto;
   width: 30%;
   height: auto;
+
+}
+
+.edit, .create {
+  margin: auto;
+  width: 50%;
+  height: auto;
 }
 
 .edit-box {
   display: inline-block;
   vertical-align: middle;
 }
+
+

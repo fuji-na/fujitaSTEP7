@@ -36,13 +36,13 @@
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->price}}</td>
                             <td>{{$product->stock}}</td>
-                            <td>{{$company->company_name}}</td>
+                            <td>{{$product->company->company_name}}</td>
                             <td><a href="{{ route('syousai', ['id' => $product->id]) }}" >詳細</a></td>
                             <td>
-                                <button class="delete" type="submit" id="deleteBtn{{$product->id}}" data-id="{{$product->id}}" onclick="return confirm('本当に削除しますか？');">削除</button>
                                 <form id="deleteForm{{$product->id}}" method="POST" action="{{ route('post.destroy', ['id' => $product->id]) }}">
                                     @csrf
                                     @method('DELETE')
+                                    <button class="delete" type="submit" id="deleteBtn{{$product->id}}" data-id="{{$product->id}}" onclick="return confirm('本当に削除しますか？');">削除</button>
                                 </form>
                             </td>
                         </tr>
