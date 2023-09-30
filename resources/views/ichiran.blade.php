@@ -16,6 +16,7 @@
                 @endforeach
                 </select>
                 <button class="search" type="submit" name="keyword" value="{{ $keyword }}" onclick="location.href='./ichiran'">検索</button>
+            </form>
                 <table class="all">
                     <thead>
                         <tr>
@@ -32,7 +33,7 @@
                     @foreach($products as $product)
                         <tr>
                             <td>{{$product->id}}</td>
-                            <td>{{$product->img_path}}</td>
+                            <td><img class="image" src="{{ asset($product->img_path) }}"></td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->price}}</td>
                             <td>{{$product->stock}}</td>
@@ -49,6 +50,5 @@
                     @endforeach
                     </tbody>
                 </table>
-            </form>
         </div>
     @endsection
