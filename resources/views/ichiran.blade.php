@@ -15,7 +15,7 @@
                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                 @endforeach
                 </select>
-                <button class="search" type="submit" name="keyword" value="{{ $keyword }}" onclick="location.href='./ichiran'">検索</button>
+                <button class="search" type="submit" value="{{ $keyword }}" >検索</button>
             </form>
                 <table class="all">
                     <thead>
@@ -33,7 +33,7 @@
                     @foreach($products as $product)
                         <tr>
                             <td>{{$product->id}}</td>
-                            <td><img class="image" src="{{ asset($product->img_path) }}"></td>
+                            <td><img class="image" src="{{ asset('storage/'.$product->img_path) }}"></td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->price}}</td>
                             <td>{{$product->stock}}</td>

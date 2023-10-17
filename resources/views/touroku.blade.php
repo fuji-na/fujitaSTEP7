@@ -5,7 +5,7 @@
     @section('content')
     
         <div class="center-content">
-                <form action="{{ route('registSubmit') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('registSubmit') }}" method="post" enctype="multipart/form-data">
                     @csrf
             <table class="create">
                 <tbody>
@@ -67,7 +67,7 @@
             </table>
                     <button class="create-btn" type="submit">新規登録</button>
                     <button class="return" onclick="location.href='./ichiran'">戻る</button>
-                </form>
+        </form>
         </div>
     @endsection
 <!--onclick="location.href='./touroku'"-->

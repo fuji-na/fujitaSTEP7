@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Company;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class ProductController extends Controller
 {
@@ -15,13 +16,21 @@ class ProductController extends Controller
         //インスタンス生成
         $productModel = new Product();
         $products = $productModel->getList();
-        $products = Product::getList();
+        //$products = Product::getList()->paginate(3);
 
         $companyModel = new Company();
         $companies = $companyModel->getList();
 
+
         return view('ichiran', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword]);
     }
+
+    /*検索結果が表示されない→ルート設定？
+    ページネーションはどっちのメソッドが正解？
+    ページネーション入れるとMethod Illuminate\Database\Eloquent\Collection::links does not exist.
+    PHPのエラー解消後データが正常にDBに入っていない(created_atとimg_pathがNULLになる)
+    →コントローラーが間違っている？*/
+
 
     //検索
     public function search(Request $request){
@@ -29,6 +38,9 @@ class ProductController extends Controller
         //インスタンス生成
         $model = new Product();
         $products = Product::searchByKeyword($keyword)->get();
+        //$products = Product::searchByKeyword($keyword)->paginate(3);
+        //$products = Product::paginate(3);
+
 
         $companyModel = new Company();
         $companies = $companyModel->getList();
@@ -87,14 +99,14 @@ class ProductController extends Controller
     }
 
 
-
-    public function touroku() {
+    public function touroku(Request $request) {
         //インスタンス生成
         $companyModel = new Company();
         $companies = $companyModel->getList();
 
         $productModel = new Company();
         $products = $productModel->getList();
+
         return view('touroku', ['products' => $products, 'companies' => $companies]);
     }
 
@@ -118,6 +130,7 @@ class ProductController extends Controller
 
     
     public function registSubmit(ArticleRequest $request) {
+
         //トランザクション開始
         DB::beginTransaction();
 
@@ -126,12 +139,33 @@ class ProductController extends Controller
         try {
             //登録処理呼び出し
             $model->registSubmit($request);//insert_dataの処理を追加させる
+
+            if($request->hasFile('imag_path')) {
+                $filename = $request->img_path->getClientOriginalName();
+                $filePath = $request->img_path->storeAs( $filename, 'public');
+                $product->img_path = 'storage/' . $filepath;
+            }
+    
             DB::commit();
+
+            logger('商品が登録されました。');
+
+            session()->flash('success', '商品が登録されました。');
+
         } catch (\Exception $e) {
-            //logger($e->getMessage()); 
+            logger($e->getMessage()); 
             DB::rollback();
             return back();
         }
+
+        if($request->hasFile('imag_path')) {
+            $filename = $request->img_path->getClientOriginalName();
+            $filePath = $request->img_path->storeAs( $filename, 'public');
+            $product->img_path = 'storage/' . $filepath;
+        }
+
+
+        //dd($request);
         //処理が完了したらtourokuにリダイレクト
         return redirect(route('ichiran'));
     }
