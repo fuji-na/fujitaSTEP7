@@ -26,10 +26,8 @@ class ProductController extends Controller
     }
 
     /*検索結果が表示されない→ルート設定？
-    ページネーションはどっちのメソッドが正解？
-    ページネーション入れるとMethod Illuminate\Database\Eloquent\Collection::links does not exist.
-    PHPのエラー解消後データが正常にDBに入っていない(created_atとimg_pathがNULLになる)
-    →コントローラーが間違っている？*/
+    ページネーションは一覧と検索どっちが正解？
+    ページネーション入れるとMethod Illuminate\Database\Eloquent\Collection::links does not exist.*/
 
 
     //検索
@@ -129,7 +127,7 @@ class ProductController extends Controller
     }
 
     
-    public function registSubmit(ArticleRequest $request) {
+    public function registSubmit(Request $request) {
 
         //トランザクション開始
         DB::beginTransaction();
@@ -137,14 +135,18 @@ class ProductController extends Controller
         $model = new Product();
 
         try {
-            //登録処理呼び出し
-            $model->registSubmit($request);//insert_dataの処理を追加させる
-
-            if($request->hasFile('imag_path')) {
-                $filename = $request->img_path->getClientOriginalName();
-                $filePath = $request->img_path->storeAs( $filename, 'public');
-                $product->img_path = 'storage/' . $filepath;
+            
+            if($request->hasFile('img_path')) {
+                $filename = $request->file('img_path')->getClientOriginalName();
+                $request->file('img_path')->storeAs('public', $filename);
+                $img_path = $filename;
+            } else {
+                $img_path = null;
             }
+
+            //登録処理呼び出し
+            $model->registSubmit($request, $img_path);//insert_dataの処理を追加させる
+
     
             DB::commit();
 
@@ -156,12 +158,6 @@ class ProductController extends Controller
             logger($e->getMessage()); 
             DB::rollback();
             return back();
-        }
-
-        if($request->hasFile('imag_path')) {
-            $filename = $request->img_path->getClientOriginalName();
-            $filePath = $request->img_path->storeAs( $filename, 'public');
-            $product->img_path = 'storage/' . $filepath;
         }
 
 
