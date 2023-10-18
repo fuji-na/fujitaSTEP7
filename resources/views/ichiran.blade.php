@@ -15,7 +15,7 @@
                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                 @endforeach
                 </select>
-                <button class="search" type="submit" value="{{ $keyword }}" >検索</button>
+                <button class="search" type="submit">検索</button>
             </form>
                 <table class="all">
                     <thead>
@@ -50,5 +50,8 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center">
+                    {{ $products->links() }}
+                </div>
         </div>
     @endsection

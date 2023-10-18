@@ -13,7 +13,7 @@ class Product extends Model
     protected $table = 'products';
     //productsテーブルからデータを取得
     public static function getList() {
-        return self::with('company')->get();
+        return self::with('company');
     }
 
     public function company() {
@@ -25,8 +25,14 @@ class Product extends Model
 
     public function scopeSearchBykeyword($query, $keyword){
         if(!empty($keyword)){
-            return $query->where('product_name', 'LIKE', "%{keyword}%")
-                         ->orWhere('company_name', 'LIKE', "%{keyword}%");
+            return $query->where('product_name', 'LIKE', "%$keyword%")
+                         ->orWhereHas('company', function($query) use ($keyword) {
+                            $query->where('company_name', 'LIKE', "%$keyword%");
+                         })
+                         ->orWhere('comment', 'LIKE', "%$keyword%")
+                         ->orWhere('stock', 'LIKE', "%$keyword%")
+                         ->orWhere('price', 'LIKE', "%$keyword%")
+                        ->with('company');
         }
         return $query;
     }
