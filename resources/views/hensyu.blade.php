@@ -4,7 +4,7 @@
     
     @section('content')
     <div class="center-content">
-        <form action="{{ route('update', ['id' => $product->id]) }}" method="post">
+        <form action="{{ route('updateProduct', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <table class="edit">
@@ -21,7 +21,6 @@
                     <th>メーカー名</th>
                     <td>
                         <select class="edit-box" id="company_id" name="company_id" required>
-                            <option>選択してください</option>
                             @foreach($companies as $company)
                             <option value="{{$company->id}}" @if($company->id === $product->company_id) selected @endif>{{$company->company_name}}</option>
                             @endforeach
@@ -42,7 +41,9 @@
                 </tr>
                 <tr>
                     <th>商品画像</th>
-                    <td><input class="edit-box" type="file" id="img_path" name="img_path"></td>
+                    <td><input class="edit-box" type="file" id="img_path" name="img_path">
+                        <img class="image" src="{{ asset('storage/'.$product->img_path) }}">
+                    </td>
                 </tr>
             </tbody>
         </table>

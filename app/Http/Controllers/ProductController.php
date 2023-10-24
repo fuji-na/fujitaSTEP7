@@ -64,14 +64,39 @@ class ProductController extends Controller
     }
 
     //更新
-    public function update(Request $request, $id) {
+    public function updateProduct(Request $request, $id) {
+        DB::beginTransaction();
+
         $product = Product::find($id);
 
         if (!$product) {
             return redirect()->route('ichiran')->with('error', 'Product not found.');
         }
+        
+        try {
+            
+            if($request->hasFile('img_path')) {
+                $filename = $request->file('img_path')->getClientOriginalName();
+                $request->file('img_path')->storeAs('public', $filename);
+                $img_path = $filename;
+            } else {
+                $img_path = $product->img_path;
+            }
+            //更新処理呼び出し
+            $product->updateProduct($request, $img_path);
 
-        $product->updateProduct($request);
+    
+            DB::commit();
+
+            logger('商品が更新されました。');
+
+            session()->flash('success', '商品が更新されました。');
+
+        } catch (\Exception $e) {
+            logger($e->getMessage()); 
+            DB::rollback();
+            return back();
+        }
 
         return redirect()->route('ichiran')->with('success', 'Product updated successfully.');
     }
@@ -105,20 +130,24 @@ class ProductController extends Controller
 
     //削除
     public function destroy($id) {
+        DB::beginTransaction();
         $product = Product::find($id);
+
         try{
             $product = Product::findOrFail($id);
 
             $product->delete();
 
-            logger('商品が削除されました。ID: ' . $product->id);
-
             session()->flash('success', '商品が削除されました。');
-            return redirect()->route('ichiran');
+
+            DB::commit();
+
         } catch (\Exception $e) {
-            logger('商品が見つかりませんでした。エラーメッセージ: ' . $e->getMessage());
-            return redirect()->route('ichiran')->with('error', '商品が見つかりませんでした。');
+            logger('商品が削除されました。ID: ' . $product->id . $e->getMessage());
+            DB::rollback();
+            return back();
         }
+            return redirect()->route('ichiran')->with('error', '商品が見つかりませんでした。');
     }
 
     

@@ -42,4 +42,4 @@ Route::post('/registSubmit', [App\Http\Controllers\ProductController::class, 're
 //商品情報編集画面
 Route::get('/hensyu/{id}', [App\Http\Controllers\ProductController::class, 'hensyu'])->name('hensyu');
 //更新
-Route::put('/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('update');
+Route::put('/updateProduct/{id}', [App\Http\Controllers\ProductController::class, 'updateProduct'])->name('updateProduct');

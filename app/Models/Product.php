@@ -21,7 +21,7 @@ class Product extends Model
     }
 
     //検索
-    protected $fillable = ['product_name','company_name', 'price', 'stock', 'comment', 'img_path'];
+    protected $fillable = ['product_name','company_name', 'company_id', 'price', 'stock', 'comment', 'img_path'];
 
     public function scopeSearchBykeyword($query, $keyword){
         if(!empty($keyword)){
@@ -38,14 +38,14 @@ class Product extends Model
     }
 
     //編集
-    public function updateProduct($data) {
+    public function updateProduct($data, $img_path) {
         $this->update([
             'product_name' => $data['product_name'],
             'company_id' => $data['company_id'],
             'price' => $data['price'],
             'stock' => $data['stock'],
             'comment' => $data['comment'],
-            'img_path' => $data['img_path'],
+            'img_path' => $img_path,
         ]);
     }
     //削除
