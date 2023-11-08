@@ -15,18 +15,23 @@
                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                 @endforeach
                 </select>
-                <button class="search" type="submit">検索</button>
+                <input type="number" name="min_price" placeholder="最小価格">
+                <input type="number" name="max_price" placeholder="最大価格">
+                <input type="number" name="min_stock" placeholder="最小在庫">
+                <input type="number" name="max_stock" placeholder="最大在庫">
+                <button id="search" class="search" type="submit">検索</button>
             </form>
                 <table class="all">
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>商品画像</th>
-                            <th>商品名</th>
-                            <th>価格</th>
-                            <th>在庫数</th>
-                            <th>メーカー名</th>
+                            <th>@sortablelink('id', 'ID')</th>
+                            <th>@sortablelink('img_path', '商品画像')</th>
+                            <th>@sortablelink('product_name', '商品名')</th>
+                            <th>@sortablelink('price', '価格')</th>
+                            <th>@sortablelink('stock', '在庫数')</th>
+                            <th>@sortablelink('company_name', 'メーカー名')</th>
                             <th><button type="button" onclick="location.href='./touroku'">新規登録</button></th>
+                            <th><button class="list" type="submit" onclick="location.href='{{ route('ichiran') }}'">一覧</button></th>
                         </tr>
                     </thead>
                     <tbody>

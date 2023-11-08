@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
 {
     use HasFactory;
+    use Sortable;
 
     protected $table = 'products';
     //productsテーブルからデータを取得
@@ -22,19 +24,21 @@ class Product extends Model
 
     //検索
     protected $fillable = ['product_name','company_name', 'company_id', 'price', 'stock', 'comment', 'img_path'];
+    public $sortable = ['id', 'product_name', 'price', 'stock', 'company_name'];
 
-    public function scopeSearchBykeyword($query, $keyword){
+    public function scopeSearchBykeyword($query, $keyword, $min_price, $max_price, $min_stock, $max_stock){
         if(!empty($keyword)){
+
             return $query->where('product_name', 'LIKE', "%$keyword%")
-                         ->orWhereHas('company', function($query) use ($keyword) {
+                         ->orWhereHas('company', function ($query) use ($keyword) {
                             $query->where('company_name', 'LIKE', "%$keyword%");
                          })
                          ->orWhere('comment', 'LIKE', "%$keyword%")
                          ->orWhere('stock', 'LIKE', "%$keyword%")
-                         ->orWhere('price', 'LIKE', "%$keyword%")
-                        ->with('company');
+                         ->orWhere('price', 'LIKE', "%$keyword%");
         }
-        return $query;
+
+        $query->with('company');
     }
 
     //編集

@@ -12,11 +12,12 @@ use Illuminate\Pagination\Paginator;
 class ProductController extends Controller
 {
     public function ichiran(Request $request){
-        $products = Product::getList()->paginate(3);
+
+        
+        $products = Product::sortable(['id' => 'desc'])->paginate(3);
 
         $companyModel = new Company();
         $companies = $companyModel->getList();
-
 
         return view('ichiran', ['products' => $products, 'companies' => $companies]);
     }
@@ -27,24 +28,44 @@ class ProductController extends Controller
     public function search(Request $request){
         $keyword = $request->input('keyword');
         $company_id = $request->input('company_id'); 
-
+        $min_price = $request->input('min_price');
+        $max_price = $request->input('max_price');
+        $min_stock = $request->input('min_stock');
+        $max_stock = $request->input('max_stock');
+        
         $query = Product::query();
 
         if (!empty($keyword)) {
-            $query->searchByKeyword($keyword);
+            $query->searchByKeyword($keyword,);
         }
     
         if (!empty($company_id)) {
             $query->where('company_id', $company_id);
         }
+
+        if(!empty($min_price)) {
+            $query->where('price', '<=', $min_price);
+        }
+        if(!empty($max_price)) {
+            $query->where('price', '>=', $max_price);
+        }
+        if(!empty($min_stock)) {
+            $query->where('stock', '<=', $min_stock);
+        }
+        if(!empty($max_stock)) {
+            $query->where('stock', '>=', $max_stock);
+        }
+
     
         //インスタンス生成
         $model = new Product();
+
         $products = $query->paginate(3);
 
         $companyModel = new Company();
         $companies = $companyModel->getList();
-        
+        //dd($min_price);
+
         return view('ichiran', compact('products', 'keyword', 'companies'));
     }
 
