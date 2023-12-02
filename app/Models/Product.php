@@ -13,6 +13,10 @@ class Product extends Model
     use Sortable;
 
     protected $table = 'products';
+    //リレーション
+    public function sale() {
+        return $this->hasMany(Sale::class);
+    }
     //productsテーブルからデータを取得
     public static function getList() {
         return self::with('company');
