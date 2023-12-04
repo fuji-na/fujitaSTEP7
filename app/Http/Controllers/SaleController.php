@@ -15,7 +15,7 @@ class SaleController extends Controller
             try {
 
                 $sale = new Sale();
-                $result = $sale->purchase($request->input('productId'), $request->input('quantity', 1));
+                $result = $sale->purchase($request->input('product_id'), $request->input('quantity', 1));
                 
                 return response()->json($result);
             } catch (\Exception $e) {
