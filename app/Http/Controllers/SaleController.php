@@ -12,19 +12,17 @@ class SaleController extends Controller
 {
     public function purchase(Request $request) {
         DB::beginTransaction();
-            try {
+        try {
+            $sale = new Sale();
+            $result = $sale->purchase($request->input('productId'), $request->input('quantity', 1));
+            
+            DB::commit();
 
-                $sale = new Sale();
-                $result = $sale->purchase($request->input('product_id'), $request->input('quantity', 1));
-                
-                return response()->json($result);
-            } catch (\Exception $e) {
-                $model->purchase($request);
-
-                DB::commit();
-
-                logger($e->getMessage());
-                return response()->json(['message' => '購入時にエラーが発生しました'], 500);
-            }
-        }    
+            return response()->json($result);
+        } catch (\Exception $e) {
+            DB::rollback();
+            logger($e->getMessage());
+            return response()->json(['message' => '購入時にエラーが発生しました'], 500);
+        }
+    }
 }
