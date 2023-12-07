@@ -34,8 +34,7 @@ class Sale extends Model
         $product->save();
 
         Sale::create([
-            'product_id' => $productId,
-            'quantity' => $quantity
+            'product_id' => $productId
         ]);
 
         return ['message' => '購入成功'];
