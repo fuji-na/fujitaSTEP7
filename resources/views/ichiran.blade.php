@@ -4,8 +4,8 @@
 
     @section('content')
     <link rel="stylesheet" href="app.css">
-        <div class="center-content">
-            <form method="GET" action="{{ route('search') }}">
+        <div id="product-list" class="center-content">
+            <form id="search" method="GET" action="{{ route('search') }}">
                 @csrf
                 <input type="text" name="keyword" placeholder="検索キーワード">
                 <label>メーカー名</label>
@@ -19,7 +19,7 @@
                 <input type="number" name="max_price" placeholder="最大価格">
                 <input type="number" name="min_stock" placeholder="最小在庫">
                 <input type="number" name="max_stock" placeholder="最大在庫">
-                <button id="search" class="search" type="submit">検索</button>
+                <button class="search" type="submit">検索</button>
             </form>
                 <table class="all">
                     <thead>
