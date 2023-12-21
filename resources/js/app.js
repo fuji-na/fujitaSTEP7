@@ -21,7 +21,8 @@ $("#search").on("submit", function(event) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(data) {
-            $("#product-list").html(data);//一覧画面の表示
+            var newTable = $(data).find('table.all');
+            $("#product-list table.all").html(newTable);
         },
         error: function() {
             alert("読み込み失敗");
