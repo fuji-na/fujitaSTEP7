@@ -2,22 +2,26 @@ import './bootstrap';
 
 /*$.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $("[name = 'cserf-token]").attr("content")
+        'X-CSRF-TOKEN': $("[name = 'csrf-token]").attr("content")
     },
 });*/
 
 
-$("#search").on('submit', function(event) {
+$("#search").on("submit", function(event) {
     event.preventDefault();
-
+    
+    var formData = $(this).serialize(); 
 
     $.ajax({
         type: "GET",
-        url: "{{ route('search') }}",
+        url: "search",
         data: formData,
-        dataType: 'html',
+        dataType: "html",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         success: function(data) {
-            $('#product-list').html(data);//一覧画面の表示
+            $("#product-list").html(data);//一覧画面の表示
         },
         error: function() {
             alert("読み込み失敗");
