@@ -3,7 +3,7 @@
     @section('title', '一覧画面')
 
     @section('content')
-    <link rel="stylesheet" href="app.css">
+    
         <div id="product-list" class="center-content">
             <form id="search" method="GET" action="{{ route('search') }}">
                 @csrf
