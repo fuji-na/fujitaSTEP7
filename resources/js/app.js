@@ -26,16 +26,18 @@ $("#search").on("submit", function(event) {
 });
 //http://localhost:8888/FujitaSTEP7/public/ichiran
 
-$('deleteBtn{{$product->id}}').on('click', function() {
-
-    var productId = $(this).attr('id').replace('deleteBtn', '');
+$(document).ready(function(){
+$('.delete').on('click', function(event) {
+    event.preventDefault();
+    var productId = $(this).data('id');
 
     $.ajax({
         type:'DELETE',
-        url: '/post.destroy/{id}',
-        data: {'id': productID},
+        url: '/post.destroy/' + productId,
+        data: {'id': productId},
         dataType: 'json',
         success: function (data) {
+            console.log('削除');
             $('#deleteForm' + productId).closest('tr').remove();//削除
             alert(data.message);
         },
@@ -43,5 +45,6 @@ $('deleteBtn{{$product->id}}').on('click', function() {
             alert('商品の削除に失敗しました');
         }
     });
-});
 
+});
+});
