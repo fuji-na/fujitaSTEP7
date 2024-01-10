@@ -28,7 +28,7 @@ $("#search").on("submit", function(event) {
 
 $('.delete').on('click', function(event) {
     event.preventDefault();
-    var productId = $(this).data('id');
+    var productId = $(this).attr('id').replace('deleteBtn', '');
 
     $.ajax({
         type:'POST',
