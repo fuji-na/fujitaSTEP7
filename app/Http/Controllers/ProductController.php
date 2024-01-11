@@ -163,7 +163,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            //return response()->json(['message' => '削除成功']);
+            return response()->json(['message' => '削除成功']);
 
 
         } catch (\Exception $e) {
@@ -171,8 +171,7 @@ class ProductController extends Controller
             DB::rollback();
             return back();
         }
-            //return response()->json(['error' => '削除失敗'], 500);
-            return redirect()->route('ichiran')->with('error', '商品が見つかりませんでした。');
+            return response()->json(['error' => '削除失敗'], 500);
     }
 
     
