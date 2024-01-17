@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 
+
 class Product extends Model
 {
     use HasFactory;
@@ -33,7 +34,7 @@ class Product extends Model
     public function scopeSearchBykeyword($query, $keyword, $min_price, $max_price, $min_stock, $max_stock){
         if(!empty($keyword)){
 
-            return $query->where('product_name', 'LIKE', "%$keyword%")
+            $query = $query->where('product_name', 'LIKE', "%$keyword%")
                          ->orWhereHas('company', function ($query) use ($keyword) {
                             $query->where('company_name', 'LIKE', "%$keyword%");
                          })
@@ -42,7 +43,9 @@ class Product extends Model
                          ->orWhere('price', 'LIKE', "%$keyword%");
         }
 
-        $query->with('company');
+        $query->with('company')->orderBy('id', 'desc');
+        return $query;
+
     }
 
     //編集

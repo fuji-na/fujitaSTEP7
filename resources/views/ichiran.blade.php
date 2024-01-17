@@ -24,12 +24,12 @@
                 <table class="all">
                     <thead>
                         <tr>
-                            <th>@sortablelink('id', 'ID')</th>
-                            <th>@sortablelink('img_path', '商品画像')</th>
-                            <th>@sortablelink('product_name', '商品名')</th>
-                            <th>@sortablelink('price', '価格')</th>
-                            <th>@sortablelink('stock', '在庫数')</th>
-                            <th>@sortablelink('company_name', 'メーカー名')</th>
+                            <th class="sortable-column">@sortablelink('id', 'ID')</th>
+                            <th class="sortable-column">@sortablelink('img_path', '商品画像')</th>
+                            <th class="sortable-column">@sortablelink('product_name', '商品名')</th>
+                            <th class="sortable-column">@sortablelink('price', '価格')</th>
+                            <th class="sortable-column">@sortablelink('stock', '在庫数')</th>
+                            <th class="sortable-column">@sortablelink('company_name', 'メーカー名')</th>
                             <th><button type="button" onclick="location.href='./touroku'">新規登録</button></th>
                             <th><button class="list" type="submit" onclick="location.href='{{ route('ichiran') }}'">一覧</button></th>
                         </tr>
@@ -56,7 +56,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-                    {{ $products->links() }}
+                    {{ $products->appends(request()->query())->links() }}
                 </div>
         </div>
     @endsection

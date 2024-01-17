@@ -55,8 +55,9 @@ class ProductController extends Controller
         if(!empty($max_stock)) {
             $query->where('stock', '>=', $max_stock);
         }
+        $query->sortable()
+        ->orderBy('id', 'desc'); // ソートを適用
 
-    
         //インスタンス生成
         $model = new Product();
 
