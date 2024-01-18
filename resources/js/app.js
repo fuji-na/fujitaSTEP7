@@ -18,6 +18,8 @@ $("#search").on("submit", function(event) {
             var newTableBody = $(data).find('table.all tbody');
             $("#product-list table.all tbody").html(newTableBody.html());
 
+            setDeleteButtonEventHandler();
+
             $(".all").trigger("destroy");
             $(".all").tablesorter();
         },
@@ -32,7 +34,7 @@ $("#search").on("submit", function(event) {
 
 
 
-
+setDeleteButtonEventHandler();
 
 //http://localhost:8888/FujitaSTEP7/public/ichiran
 
@@ -67,13 +69,3 @@ function setDeleteButtonEventHandler() {
         deleteProduct(productId);
     });
 }
-
-// クリックイベントのハンドラを設定
-$(".delete").on("click", function (event) {
-    event.preventDefault();
-    var productId = $(this).attr('id').replace('deleteBtn', '');
-
-    // 関数呼び出し
-    deleteProduct(productId);
-});
-
